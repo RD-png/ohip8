@@ -9,7 +9,8 @@
     in {
       devShells.default = pkgs.mkShell {
         packages = with pkgs; [
-          ocamlPackages.ocaml
+          ocaml
+          dune_3
           ocamlPackages.findlib
           ocamlPackages.core
         ];
