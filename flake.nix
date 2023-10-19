@@ -13,6 +13,7 @@
           dune_3
           ocamlPackages.findlib
           ocamlPackages.core
+          ocamlPackages.ppx_deriving
         ];
       };
     });
