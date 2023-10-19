@@ -1,6 +1,11 @@
 type chip_context =
-  { memory  : Memory.t
-  }
+  { mutable memory  : Memory.t;
+    mutable display : Display.t
+  } [@@deriving show]
+
 
 let create_chip_context =
-  { memory = Memory.create }
+  { memory  = Memory.create;
+    display = Display.init
+  }
+;;
