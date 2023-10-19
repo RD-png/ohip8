@@ -1,4 +1,9 @@
-type t = int array [@@deriving show]
+type pixel =
+  | Transparent
+  | Drawn
+[@@deriving show]
+
+type t = pixel array [@@deriving show]
 
 let init =
-  Array.make (64 * 32) 0
+  Array.make (64 * 32) Transparent

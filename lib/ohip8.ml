@@ -3,7 +3,6 @@ type chip_context =
     mutable display : Display.t
   } [@@deriving show]
 
-
 let create_chip_context =
   { memory  = Memory.create;
     display = Display.init

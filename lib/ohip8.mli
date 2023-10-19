@@ -1,5 +1,6 @@
 type chip_context = { mutable memory : Memory.t;
-                      mutable display : Display.t }
+                      mutable display : Display.t
+                    }
 
 val create_chip_context : chip_context
 
