@@ -1,3 +1,4 @@
 (library
  (name ohip8)
+ (preprocess(pps ppx_deriving.show))
  (libraries core))
