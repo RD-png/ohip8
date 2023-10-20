@@ -1,6 +1,8 @@
-type t = int array
+type t =
+  { mutable pc       : int;
+    mutable register : int array
+  }
 
-val pp : Format.formatter -> t -> unit
-val show : t -> string
-
-val create : int array
+val font : int list
+val create : t
+val fetch : t -> int
