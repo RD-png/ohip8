@@ -11,6 +11,7 @@
         packages = with pkgs; [
           ocaml
           dune_3
+          ocamlPackages.ocaml-lsp
           ocamlPackages.findlib
           ocamlPackages.core
           ocamlPackages.ppx_deriving
