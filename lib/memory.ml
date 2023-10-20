@@ -1,4 +1,7 @@
-type t = int array [@@deriving show]
+type t =
+  { mutable pc       : int;
+    mutable register : int array
+  }
 
 let font =
   [ 0xF0; 0x90; 0x90; 0x90; 0xF0; (* 0 *)
@@ -21,7 +24,21 @@ let font =
 ;;
 
 let create =
-  let memory = Array.make 4096 0 in
-  let () = List.iteri (fun addr char -> memory.(addr) <- char) font in
-  memory
+  let register = Array.make 4096 0 in
+  let () = List.iteri (fun addr char -> register.(addr) <- char) font in
+  { pc = 0;
+    register
+  }
+;;
+
+let increment t =
+  t.pc <- t.pc + 2
+;;
+
+let fetch t =
+  let bit1 = Array.get t.register t.pc in
+  let bit2 = Array.get t.register (t.pc + 1) in
+  let opcode = Int.logor (Int.shift_left bit1 8) bit2 in
+  let () = increment t in
+  opcode
 ;;
