@@ -11,7 +11,7 @@ let execute _action frequency =
 
 let rec run context frequency =
   let opcode = Memory.fetch context.memory in
-  let action = decode opcode in
+  let action = decode opcode context in
   let frequency' = execute action frequency in
   run context frequency'
 ;;

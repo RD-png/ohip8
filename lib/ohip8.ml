@@ -23,12 +23,12 @@ let nibble byte shift bound =
   Int.shift_left (Int.logand byte bound) shift
 ;;
 
-let decode opcode =
+let decode opcode context =
   let optype = nibble opcode 4 0xF0 in
   match optype with
-  | 0 -> () (* 00E0 - Clear Screen *)
-  | 1 -> () (* 1NNN - Jump *)
-  | 2 -> () (* 6XNN - Set Register VX *)
+  | 0x00 -> Display.clear context.display
+  | 0x01 -> Memory.jump opcode context.memory
+  | 0x02 -> Memory.set  (* 6XNN - Set Register VX *)
   | 3 -> () (* 7XNN - Add Value To Register VX *)
   | 4 -> () (* ANNN - Set Index Register I *)
   | 5 -> () (* DXYN - Display / Draw *)

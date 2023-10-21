@@ -42,3 +42,7 @@ let fetch t =
   let () = increment t in
   opcode
 ;;
+
+let jump opcode t=
+  t.pc <- Int.logand opcode 0x0FFF
+;;

@@ -7,4 +7,4 @@ type chip_context = {
 }
 
 val create_chip_context : chip_context
-val decode : int -> unit
+val decode : int -> chip_context -> unit

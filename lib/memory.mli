@@ -6,3 +6,4 @@ type t =
 val font : int list
 val create : t
 val fetch : t -> int
+val jump : int -> t -> unit
