@@ -6,7 +6,7 @@ type chip_context =
     sound_timer     : int
   }
 
-exception Invalid_opcode of string;;
+exception Invalid_opcode of string
 
 let create_chip_context =
   { memory      = Memory.create;
@@ -17,19 +17,34 @@ let create_chip_context =
   }
 ;;
 
-(* Maybe move this logic to a decoder module *)
-
-let nibble byte shift bound =
-  Int.shift_left (Int.logand byte bound) shift
+let nibble byte shift mask =
+  Int.shift_right (Int.logand byte mask) shift
 ;;
 
 let decode opcode context =
-  let optype = nibble opcode 4 0xF0 in
+  let optype = nibble opcode 12 0xF000 in
   match optype with
-  | 0x00 -> Display.clear context.display
-  | 0x01 -> Memory.jump opcode context.memory
-  | 0x02 -> Memory.set  (* 6XNN - Set Register VX *)
-  | 3 -> () (* 7XNN - Add Value To Register VX *)
-  | 4 -> () (* ANNN - Set Index Register I *)
-  | 5 -> () (* DXYN - Display / Draw *)
+  | 0x00 ->
+     Display.clear context.display
+  | 0x01 ->
+     let addr = Int.logand opcode 0x00FF in
+     Memory.jump addr context.memory
+  | 0x06 ->
+     let value = nibble opcode 0 0x00FF in
+     let addr = nibble opcode 8 0x0F00 in
+     Memory.set addr value context.memory
+  | 0x07 ->
+     let value = nibble opcode 0 0x0FF in
+     let addr = nibble opcode 8 0x0F00 in
+     Memory.add addr value context.memory
+  | 0x0A ->
+     let addr = Int.logand opcode 0x00FF in
+     context.memory.i <- addr
+  | 0x0D ->
+     let x = nibble opcode 8 0x0F00 in
+     let y = nibble opcode 4 0x00F0 in
+     let vx = Memory.get x context.memory in
+     let vy = Memory.get y context.memory in
+     let sprite_height = Int.logand opcode 0x000F in
+     Display.draw vx vy sprite_height context.display
   | _ -> raise (Invalid_opcode (Int.to_string optype))

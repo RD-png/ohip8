@@ -1,5 +1,6 @@
 type t =
   { mutable pc       : int;
+    mutable i        : int;
     mutable register : int array
   }
 
@@ -27,6 +28,7 @@ let create =
   let register = Array.make 4096 0 in
   let () = List.iteri (fun addr char -> register.(addr) <- char) font in
   { pc = 0;
+    i = 0;
     register
   }
 ;;
@@ -43,6 +45,18 @@ let fetch t =
   opcode
 ;;
 
-let jump opcode t=
-  t.pc <- Int.logand opcode 0x0FFF
+let get addr t =
+  Array.get t.register addr
+;;
+
+let jump addr t =
+  t.pc <- addr
+;;
+
+let set addr value t =
+  t.register.(addr) <- value
+;;
+
+let add addr value t =
+  t.register.(addr) <- value + t.register.(addr)
 ;;

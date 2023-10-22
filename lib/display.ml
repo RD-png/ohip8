@@ -9,3 +9,7 @@ let init =
 
 let clear t =
   Array.iteri (fun addr _ -> t.(addr) <- Transparent) t
+
+(* TODO *)
+let draw _vx _vy _sprite_height _t =
+  ()
